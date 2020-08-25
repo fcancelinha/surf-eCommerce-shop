@@ -1,8 +1,4 @@
-﻿select * from utilizador
-select * from produto
-
--- Ainda não criada
-
+﻿
 create table encomenda (
 	ID int identity primary key,
 	DataEncomenda date,
@@ -134,29 +130,6 @@ begin catch
 	rollback;
 end catch
 
-
--- SELECT TODOS OS PRODUTOS
-
--- AZ
-select produto.ID, produto.imagem, produto.titulo, produto.resumo, produto.preco, categoria.descricao 
-from produto inner join categoria on produto.idCategoria = categoria.ID
-ORDER BY produto.titulo ASC
-
--- ZA
-select produto.ID, produto.imagem, produto.titulo, produto.resumo, produto.preco, categoria.descricao 
-from produto inner join categoria on produto.idCategoria = categoria.ID
-ORDER BY produto.titulo DESC
-
---Preco ASC
-select produto.ID, produto.imagem, produto.titulo, produto.resumo, produto.preco, categoria.descricao 
-from produto inner join categoria on produto.idCategoria = categoria.ID
-ORDER BY produto.preco ASC
-
---Preco DESC
-
-select produto.ID, produto.imagem, produto.titulo, produto.resumo, produto.preco, categoria.descricao 
-from produto inner join categoria on produto.idCategoria = categoria.ID
-ORDER BY produto.preco DESC
 
 
 -- PROCEDURE ADICIONAR ITEM (@ID refere-se ao produto, @IDutilizador refere-se ao utilizador)
@@ -621,7 +594,7 @@ BEGIN TRAN
 
 	update utilizador 
 	set utilizador.nome = @nome,
-		utilizador.email =  @email,
+		utilizador.email =  @email ,
 		utilizador.empresa = @empresa,
 		utilizador.nif = @nif,
 		utilizador.morada = @morada
@@ -635,23 +608,6 @@ BEGIN CATCH
 END CATCH
 
 
---CATEGORIAS
-select produto.ID, produto.imagem, produto.titulo, produto.resumo, produto.preco, categoria.descricao 
-from produto inner join categoria on produto.idCategoria = categoria.ID
-where categoria.descricao = 'Fatos'
-
-select produto.ID, produto.imagem, produto.titulo, produto.resumo, produto.preco, categoria.descricao 
-from produto inner join categoria on produto.idCategoria = categoria.ID
-where categoria.descricao = 'ROUPA'
-
-select produto.ID, produto.imagem, produto.titulo, produto.resumo, produto.preco, categoria.descricao 
-from produto inner join categoria on produto.idCategoria = categoria.ID
-where categoria.descricao = 'PRANCHAS'
-
-select * from admins
-select * from estadoEncomenda
-
-
 -- PROC SELECT ESTATÍSTICA
 
 GO
@@ -660,8 +616,6 @@ set @utilizadores =(select count(utilizador.id) - 1 as 'Utilizadores' from utili
 set @produtos=(select count(produto.ID)  as 'Produtos' from produto)
 set @encomendas =(select count(distinct encomenda.PDF) as 'Encomendas' from encomenda)
 
-
-select * from utilizador
 
 -- REGISTO ATRAVÉS DO LOGIN SOCIAL 
 
