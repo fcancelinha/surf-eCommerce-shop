@@ -1,0 +1,422 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="master.master.cs" Inherits="OnlineShop.master" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="471126422232-va6ngpf754qqf1m3qi48tb0ogqi1gadn.apps.googleusercontent.com">
+
+  <title>Surf Shop</title>
+
+  <!-- GOOGLE -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/modern-business.css" rel="stylesheet">
+  <link href="css/Search.css" rel="stylesheet">
+
+    <!-- FontAwesome & jQuery -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+
+    <style>
+
+        #formrecuperar{
+            display:none;
+        }
+
+        #hover-cart-title:focus{
+            outline:none
+        }
+
+        #hoverCartTotal:focus{
+            outline:none;
+        }
+
+        HTML {
+            scroll-behavior:smooth;
+        }
+
+        #navbar-top-2{
+            display:none;
+        }
+
+        #btn_backToTop{
+            position:fixed;
+            bottom: 0;
+            right: 0;
+            margin-right: 20px;
+            margin-bottom: 27px;
+            padding: 11px;
+            display:none;
+        }
+
+        #minicart{
+
+            width: 22rem; 
+            position:fixed; 
+            top: 0; 
+            right:0; 
+            margin-right: 10%; 
+            margin-top: 3.3em;
+            display:none;
+        }
+
+        /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+  
+
+      
+    </style>
+    
+
+       <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+  
+
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server"/>
+
+     
+  <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light fixed-top shadow">
+    <div class="container">
+
+
+      <a class="navbar-brand" href="frontpage.aspx"><img src="images/surflogotipodark.png" style="width:3.5rem"/>&nbsp;Surf Shop</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="produtos-todos.aspx">Produtos</a>
+          </li>
+
+           <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Categorias
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <asp:LinkButton ID="link_TSHIRT" class="dropdown-item" OnClick="link_TSHIRT_Click" runat="server">T-Shirt</asp:LinkButton>
+              <asp:LinkButton ID="link_FATOS" class="dropdown-item" OnClick="link_FATOS_Click" runat="server">Fatos</asp:LinkButton>
+              <asp:LinkButton ID="link_PRANCHAS" class="dropdown-item" OnClick="link_PRANCHAS_Click" runat="server">Pranchas</asp:LinkButton>
+            </div>
+          </li>
+
+            <asp:UpdatePanel ID="updateNavBar" runat="server">
+                <ContentTemplate>
+
+          <li class="nav-item">
+              <a class="nav-link" href="checkout.aspx"><i class="fas fa-shopping-cart" id="minicart-trigger">
+                  <asp:Label ID="lbl_cartnum" class="nav-pills" runat="server" Font-Size="10px" Text=" 0"></asp:Label>
+                </i>
+              </a>
+          </li>
+
+               </ContentTemplate>
+            </asp:UpdatePanel>
+
+    
+               
+
+          <li class="nav-item">
+              <a class="nav-link" style="cursor:pointer" id="searchButton"><i class="fas fa-search"></i></a>
+          </li>
+
+          <li class="nav-item" style="margin-bottom:-15px; margin-top:-7.5px">
+              <div class="nav-link">
+                   <i class="fas fa-user navbar-text"></i>
+                    <asp:LinkButton ID="link_conta" class="navbar-text" data-toggle="modal" data-target="#exampleModal" runat="server" Text="Login"></asp:LinkButton> |
+                    <asp:LinkButton ID="link_registo" class="navbar-text" runat="server" Text="Registar" OnClick="link_registo_Click"></asp:LinkButton>
+                    <asp:LinkButton ID="link_contaUtilizador" class="navbar-text" runat="server" Visible="false" Text="" OnClick="link_contaUtilizador_Click"></asp:LinkButton>
+              </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+  <!-- CART HOVER WINDOW -->
+  
+
+  <div class="card" id="minicart">
+
+      <div class="card-header bg-light">
+          <h5 class="card-title font-weight-bold text-center">Carrinho Compras</h5>
+      </div>
+
+    <div class="card-body" style="max-height: 20em; overflow:auto;">
+            <ul class="list-group list-group-flush">
+
+                  <asp:Repeater ID="rpt_hoverCarrinho" runat="server" DataSourceID="hoverCartSqlSource" OnItemCommand="rpt_hoverCarrinho_ItemCommand" OnItemDataBound="rpt_hoverCarrinho_ItemDataBound">
+                      <ItemTemplate>
+
+                          <li class="list-group-item d-flex align-content-between">
+
+                            <div class="col-2 d-flex align-content-between" style="margin-left: -25px;">
+                               <img src="<%# "data:image;base64," + Convert.ToBase64String((byte[])Eval("imagem")) %>" alt="Imagem Produto" class="border border-light" width="40">
+                            </div>
+
+                               <div class="col-10 mt-2 d-flex align-content-between">
+                                    <a href="produtos-detalhe.aspx?prod=<%# Eval("ID") %>" class="text-dark font-weight-bold text-decoration-none">
+                                        <asp:Label ID="lbl_hoverQtd" CssClass="ml-3" runat="server" Font-Bold="true" Text='<%# Eval("Qtd") + " x" %>'></asp:Label>
+                                        <input type="text" id="hover-cart-title" style="cursor:pointer;" class="text-dark bg-white border-0 font-weight-bold w-75" value='<%# Eval("titulo") %>' maxlength="70" readonly/>
+                                    </a>
+                               </div>
+                               
+                              <div class="col-1 mt-2" style="margin-right: -20px;">
+
+                                <asp:LinkButton ID="btn_eliminaHoverItem" class="text-danger mt-2 float-right" CommandName="btn_eliminaHoverItem" CommandArgument='<%# Eval("ID") %>' style="cursor:pointer; background-color: transparent; border-color: transparent" runat="server">
+                                    <i class="fas fa-times-circle"></i>
+                                </asp:LinkButton>
+
+                              </div>
+                          </li>
+
+                      </ItemTemplate>
+                </asp:Repeater>
+
+            </ul>    
+      </div>
+
+
+        <div class="card-footer bg-white">
+
+                <div class="d-flex justify-content-between mb-4">
+                    <label class="text-body font-weight-bold text-monospace align-middle mt-2" for="hoverCartTotal">Total compra:</label>
+                    <input type="text" id="hoverCartTotal" runat="server" class="form-control text-monospace bg-white w-50 align-middle" readonly/>
+                </div>
+
+                <div>
+                     <a href="checkout.aspx" class="btn btn-warning btn-block">Checkout</a>
+                </div>
+         </div>
+     </div> <!-- END OF HOVER CART -->
+
+
+  </nav>
+
+   
+    <nav id="navbar-top-2" class="nav box-shadow bg-light fixed-top shadow" style="margin-top: 5em; background-color: #343a40">
+            <asp:TextBox type="search" class="form-control bg-light text-dark w-100" ID="txt_search" placeholder="Pesquisa de produto" runat="server" TextMode="search" BorderColor="#f7f7f7" OnTextChanged="txt_search_TextChanged"></asp:TextBox> 
+  
+        <div class="col-lg-2">
+                <asp:LinkButton ID="link_pesquisa" class="btn btn-outline-secondary m-0" Visible="false" runat="server">Pesquisa</asp:LinkButton>
+         </div>
+     </nav>
+
+  
+  
+
+  <!-- MODAL LOGIN -->
+ 
+<asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+    <ContentTemplate>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExampleModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div class="modal-header" style="background-image:url(images/loginsurfimage.jpg); background-position:center">
+        <h3 class="modal-title font-weight-light text-white">Login</></h3>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body bg-white">
+
+             <asp:UpdatePanel runat="server">
+                <ContentTemplate>
+                       <div class="container">
+                        <div id="formlogin" class="form-group">
+                              
+                            <!-- LOGIN SOCIAL -->
+                            <div class="container col-lg-12 d-flex d-inline-block justify-content-between mb-3 mt-2">
+
+                                <div><!-- GOOGLE -->
+                                     <asp:LinkButton ID="googleLogin" runat="server" style="padding-left: 3em; padding-right: 3em;" class="btn btn-block btn-danger shadow shadow-sm" CausesValidation="False" data-provider="google" OnClick="socialLogin"><i class="fab fa-google"></i><span class="ml-2">Google</span></asp:LinkButton>
+                                </div>
+
+                                <div><!-- FACEBOOK -->
+                                     <asp:LinkButton ID="facebookLogin" runat="server" style="padding-left: 3em; padding-right: 3em;" class="btn btn-block btn-primary shadow shadow-sm" CausesValidation="False" data-provider="facebook" OnClick="socialLogin"><i class="fab fa-facebook-f"></i><span class="ml-2">Facebook</span></asp:LinkButton>
+                                </div>
+
+
+                            </div>
+                             <!-- /LOGIN SOCIAL -->
+
+                            <div class="col-sm-12">
+                                <label class="small mb-1" for="inputEmailAddress">Utilizador</label>
+                                <asp:TextBox ID="txt_utilizador" placeholder="Introduza email" class="form-control mb-2 small" runat="server" MaxLength="50" ValidationGroup="Login" ToolTip="Introduza o seu email ou username"></asp:TextBox>
+                            </div>
+                             <div class="col-sm-12">
+                                 <label class="small mb-1" for="inputEmailAddress">Password<span id="esquecerPassword" onclick="switchToRecovery()" style="cursor:pointer" class="small text-muted"> Esqueceu-se da Password?</span></label>   
+                                 <asp:TextBox ID="txt_password" placeholder="Digite a sua password" class="form-control small" runat="server" MaxLength="50" TextMode="Password" ValidationGroup="Login" ToolTip="Introduza a sua password"></asp:TextBox>
+                            </div>
+
+                        
+                        <div class="container col-lg-12 mt-4 mb-3">
+                        <asp:Button class="btn btn-primary btn-block btn-dark shadow shadow-sm" ID="bt_login" runat="server" UseSubmitBehavior="false" Text="Login" OnClick="bt_login_Click" ValidationGroup="Login"></asp:Button>
+                        </div>
+                    </div>  
+
+                            <!-- Recuperação Password -->
+                                <div id="formrecuperar" class="form-group">
+                                     <div class="col-sm-12">
+                                        <label class="small mb-1" for="inputEmailAddress">Email <span class="small text-muted" onclick="switchToLogin()" id="retornaLogin" style="cursor:pointer"> voltar ao Login?</span></label>
+                                        <asp:TextBox ID="text_recuperaEmail" class="form-control" runat="server"  placeholder="Introduza o seu email" TextMode="Email" ValidationGroup="Recuperar"></asp:TextBox>
+                                     </div>
+                                    
+                                    <div class="col-sm-12">
+                                    <div class="form-group text-center mt-4 mb-3">
+                                        <asp:Button ID="bt_recuperarPassword" class="btn btn-dark text-center w-50" runat="server" Text="Reset Password" ValidationGroup="Recuperar" OnClick="bt_recuperarPassword_Click" />
+                                     </div>
+                                    </div>
+                                </div>
+
+                             <!-- /Recuperação Password -->
+                    <div class="col-lg-12 text-center">
+                        <asp:Label ID="lbl_erros" runat="server" class="text-danger text-center" Text=""></asp:Label>
+                    </div>
+                    </ContentTemplate>
+                    </asp:UpdatePanel>
+                    </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+            </ContentTemplate>
+            </asp:UpdatePanel>
+
+  <!-- /END MODAL LOGIN -->     
+
+
+
+
+<asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+</asp:ContentPlaceHolder>
+
+  <!-- To Top Button -->
+  <i onClick="toTop()" class="fa fa-arrow-up btn btn-dark btn-outline-light" id="btn_backToTop"></i> 
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+   
+  <!-- HOVER CART SQL SOURCE -->
+
+      <asp:SqlDataSource ID="hoverCartSqlSource" runat="server" ConnectionString="<%$ ConnectionStrings:ONLINESHOP %>" SelectCommand="itemCart" SelectCommandType="StoredProcedure">
+        <SelectParameters>
+            <asp:SessionParameter DefaultValue="1" Name="IDutilizador" SessionField="ID" Type="Int32" />
+            <asp:CookieParameter CookieName="noLogID" DefaultValue="" Name="Cookie" Type="String" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+      <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#searchButton').click(function () {
+                $('#navbar-top-2').fadeToggle();
+            });
+        });
+
+        function switchToRecovery() {
+            $('#formrecuperar').fadeToggle("slow");
+            $('#formlogin').fadeToggle("slow");
+        }
+
+        function switchToLogin() {
+            $('#formrecuperar').fadeToggle("slow");
+            $('#formlogin').fadeToggle("slow");
+        }
+
+        // Popup divs
+        function popupalert() {
+
+            $(document).ready(function () {
+                $("#alert-popup").fadeIn(1000).fadeOut(3000);
+            });
+
+        }
+
+        // BOTÃO PARA O TOPO
+
+        window.onscroll = function () { scrollFunction() };
+        function scrollFunction() {
+            if (document.documentElement.scrollTop > 250 || document.body.scrollTop > 250) { document.getElementById("btn_backToTop").style.display = "block"; }
+            else { document.getElementById("btn_backToTop").style.display = "none"; }
+        }
+
+        function toTop() {
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+
+            $(document).ready(function () {
+                $("#minicart-trigger").hover(function () { $("#minicart").fadeIn("fast"); });
+                $("#minicart").mouseleave(function () { $("#minicart").fadeOut("fast"); });
+
+            });
+
+
+        var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+        prm.add_endRequest(function () {
+            $(document).ready(function () {
+                $("#minicart-trigger").hover(function () { $("#minicart").fadeIn("fast"); });
+                $("#minicart").mouseleave(function () { $("#minicart").fadeOut("fast"); });
+
+            });
+        });
+
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = '5db551e49182f89e44f7230efd038a28bcacfbbd';
+        window.smartsupp || (function (d) {
+            var s, c, o = smartsupp = function () { o._.push(arguments) }; o._ = [];
+            s = d.getElementsByTagName('script')[0]; c = d.createElement('script');
+            c.type = 'text/javascript'; c.charset = 'utf-8'; c.async = true;
+            c.src = 'https://www.smartsuppchat.com/loader.js?'; s.parentNode.insertBefore(c, s);
+        })(document);
+
+    </script>
+
+        
+
+ 
+</form>
+</body>
+</html>

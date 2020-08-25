@@ -1,0 +1,103 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="backoffice.master.cs" Inherits="OnlineShop.backoffice1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Surf Shop Backoffice</title>
+        <link href="backoffice/dist/css/styles.css" rel="stylesheet"/>
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+
+
+
+
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
+
+            <a class="navbar-brand" href="backofficeEncomendas.aspx">Backoffice</a>
+            <button class="btn btn-link btn order-1 order-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-10">
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+
+
+                           <div class="sb-sidenav-footer mb-3">
+                            <div class="small ml-1 mb-2">Bem-Vindo <br />
+                                <asp:Label ID="lbl_adminNome" runat="server" class="text-white h6 font-italic" Text=""></asp:Label>
+                               </div>
+                             <a id="userDropdown" class="text-light ml-1" style="text-decoration:none" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 <asp:LinkButton ID="link_logout" class="text-light" style="text-decoration:none;" runat="server" OnClick="link_logout_Click">Logout</asp:LinkButton>&nbsp&nbsp<i class="fa fa-power-off" style="color: darkred"></i></a>
+
+                            </div>
+
+                            <div class="sb-sidenav-menu-heading">Armazém</div>
+                            <a class="nav-link" href="backofficeEncomendas.aspx">
+                                <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
+                                Encomendas
+                            </a>
+
+                            <a class="nav-link" href="backofficeProdutos.aspx">
+                                <div class="sb-nav-link-icon"><i class="fas fa-warehouse"></i></div>
+                                Produtos
+                            </a>
+   
+                            <div class="sb-sidenav-menu-heading">Controlo</div>
+                            <a class="nav-link" href="backofficeUtilizadores.aspx">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Utilizadores
+                            </a>
+
+                            <div class="sb-sidenav-menu-heading">Área Reservada</div>
+                            <a class="nav-link" href="backofficeLogin.aspx">
+                                <div class="sb-nav-link-icon"><i class="fas fa-lock"></i></div>
+                                Administração
+                            </a>
+                        </div>
+                    </div>
+             
+                </nav>
+            </div>
+
+            <div id="layoutSidenav_content">
+        
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+       
+
+            
+          </div>            
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <script src="backoffice/dist/js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+        <script src="backoffice/dist/assets/demo/datatables-demo.js"></script>
+    </form>
+</body>
+</html>
