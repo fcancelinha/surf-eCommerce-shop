@@ -9,6 +9,10 @@ A small project with webforms and sql required for a c# programing class.
 
 ![CategoryShop](SurfShop-CategoryShop.png)
 
+## Shop Area with multiple categories
+
+![All Products](SurfShop-ShopArea.png)
+
 ## Item Page
 
 ![ItemPage](SurfShop-ItemPage.png)
