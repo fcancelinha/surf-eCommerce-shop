@@ -1,5 +1,5 @@
 # Surf-eCommerce-Shop
-A small project with webforms and sql required for a c# programing class. 
+A small project required for a c# programing class. 
 
 ## Front Page
 
